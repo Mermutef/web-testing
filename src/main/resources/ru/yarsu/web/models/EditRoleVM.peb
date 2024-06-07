@@ -1,0 +1,27 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.EditRoleVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}Изменение роли {{ model.form.fields["fsc"] | first }}{% endblock %}
+    {% block pageHeading %}Изменение роли {{ model.form.fields["fcs"] | first }}{% endblock %}
+{% block pageInner %}
+<form method="post">
+    <div class="mb-3">
+        {% for error in model.form.errors %}
+            <p class="text-danger">
+                    {{ error.meta.description }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        <label for="role" class="form-label">Роль</label>
+        <select name="role" id="role" class="form-control">
+            <option value="1" {% if model.form.fields["role"] | first == "1" %}selected {% endif %}>Специалист</option>
+            <option value="2" {% if model.form.fields["role"] | first == "2" %}selected {% endif %}>Модератор</option>
+            <option value="3" {% if model.form.fields["role"] | first == "3" %}selected {% endif %}>Администратор</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+<a class="btn btn-outline-primary btn-sm px-4 mt-3"
+   href="/">Отменить</a>
+{% endblock %}

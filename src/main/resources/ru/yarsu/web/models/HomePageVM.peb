@@ -1,0 +1,26 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.HomePageVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}Услуги{% endblock %}
+    {% block pageHeading %}Категории услуг{% endblock %}
+{% block pageInner %}
+<div class="row row-cols-3 mb-3 g-3">
+        {% for category in allCategories %}
+        <div class="col text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.ru }}</h5>
+                    <a href="/categories/{{ category.id }}"
+                       class="btn btn-primary">Перейти</a>
+                    {% if permissions.manageCategories %}
+                        <a href="/categories/{{ category.id }}/edit"
+                           class="btn btn-primary">Изменить</a>
+                        <a href="/categories/{{ category.id }}/delete"
+                           class="btn btn-primary">Удалить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}

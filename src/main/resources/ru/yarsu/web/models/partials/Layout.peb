@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Владислав Копнин"/>
+    <meta name="description" content="Выбор категории услуги"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% block title %}Заголовок страницы{% endblock %}</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+</head>
+<body>
+
+<nav class="navbar sticky-top navbar-expand-lg bg-{% block menuColor %}primary{% endblock %}" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">ПоискСпециалиста</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Категории
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for category in allCategories %}
+                        <li><a class="dropdown-item"
+                               href="/categories/{{ category.id }}">{{ category.ru }}</a>
+                            {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://lms.crafted.su/web-app-development/2024-1-ivt-2/docs/labs/tasks/services/"
+                       target="_blank">Задание</a>
+                </li>
+                {% if permissions.addAnnouncements %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="/announcements/new"
+                           target="_self">Новое объявление</a>
+                    </li>
+                {% endif %}
+                {% block editAnnouncement %}{% endblock %}
+                {% block deleteAnnouncement %}{% endblock %}
+                {% block addCategory %}
+                    {% if permissions.manageCategories %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="/categories/new"
+                               target="_self">Новая категория</a>
+                        </li>
+                    {% endif %}
+                {% endblock %}
+                {% block editCategory %}{% endblock %}
+                {% block deleteCategory %}{% endblock %}
+                {% block editSpecialists %}
+                    {% if permissions.manageUsers %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="/users"
+                               target="_self">Пользователи</a>
+                        </li>
+                    {% endif %}
+                {% endblock %}
+                {% block newSpecialistWithRole %}{% endblock %}
+                {% block editSpecialist %}{% endblock %}
+                {% block deleteSpecialist %}{% endblock %}
+                {% if authUser is empty %}
+                    {% block login %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="/login"
+                               target="_self">Войти</a>
+                        </li>
+                    {% endblock %}
+                    {% block register %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="/users/new"
+                               target="_self">Зарегистрироваться</a>
+                        </li>
+                    {% endblock %}
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="/users/{{ authUser.id }}"
+                           target="_self">{{ authUser.login }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="/logout"
+                           target="_self">Выйти</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<div class="container">
+    <h1 class="my-4">{% block pageHeading %}Заголовок{% endblock %}</h1>
+    <div class="my-4">{% block pageInner %}<p><b>Тело</b>{{ model.description }}</p>{% endblock %}</div>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

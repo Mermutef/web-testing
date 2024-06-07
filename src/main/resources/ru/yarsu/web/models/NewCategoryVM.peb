@@ -1,0 +1,41 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.NewCategoryVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}
+        {% if model.editMode %}
+        Редактирование категории {{ model.form.fields["categoryId"] | first }}
+        {% else %}
+        Новая категория
+        {% endif %}
+    {% endblock %}
+    {% block pageHeading %}
+        {% if model.editMode %}
+        Редактирование категории {{ model.form.fields["category"] | first }}
+        {% else %}
+        Новая категория
+        {% endif %}
+    {% endblock %}
+{% block pageInner %}
+<form method="post">
+    <div class="mb-3">
+            {% for error in model.form.errors %}
+            <p class="text-danger">
+                    {{ error.meta.description }}
+            </p>
+            {% endfor %}
+    </div>
+    <div class="mb-3">
+        <label for="categoryName" class="form-label">Название категории</label>
+        <input type="text" class="form-control" id="categoryName" name="categoryName"
+               value="{{ model.form.fields["categoryName"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="needLicense" class="form-label">Нужна лицензия</label>
+        <input type="checkbox" class="form-checkbox" id="needLicense"
+               name="needLicense" {{ model.form.fields["needLicense"] | first }}>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+<a class="btn btn-outline-primary btn-sm px-4 mt-3"
+   href="/">Отменить</a>
+{% endblock %}

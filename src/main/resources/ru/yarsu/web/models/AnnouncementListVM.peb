@@ -1,0 +1,94 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.AnnouncementListVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}
+    {{ model.pageCategory.ru }}
+    {% endblock %}
+    {% block editCategory %}
+        {% if permissions.manageCategories %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/categories/{{ model.pageCategory.id }}/edit"
+               target="_self">Изменить категорию</a>
+        </li>
+        {% endif %}
+    {% endblock %}
+    {% block deleteCategory %}
+        {% if permissions.manageCategories %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/categories/{{ model.pageCategory.id }}/delete"
+               target="_self">Удалить категорию</a>
+        </li>
+        {% endif %}
+    {% endblock %}
+    {% block pageHeading %}
+    Объявления из категории "{{ model.pageCategory.ru }}"
+    {% endblock %}
+{% block pageInner %}
+<div class="row">
+    <div class="col-2">
+        <form method="get" action="/categories/{{ model.pageCategory.id }}">
+            <h6>Дата объявления</h6>
+            <div class="mb-3">
+                <label for="minAnnouncementDate" class="form-label">От:</label>
+                <input type="datetime-local" class="form-control" name="minAnnouncementDate" id="minAnnouncementDate"
+                       value="{{ model.minAnnouncementDate }}">
+            </div>
+            <div class="mb-3">
+                <label for="maxAnnouncementDate" class="form-label">До:</label>
+                <input type="datetime-local" class="form-control" name="maxAnnouncementDate" id="maxAnnouncementDate"
+                       value="{{ model.maxAnnouncementDate }}">
+            </div>
+            <p {% if model.dateIsCorrect %}hidden{% endif %}>Введена не дата либо некорректный промежуток</p>
+            <button type="submit" class="btn btn-primary">Применить</button>
+        </form>
+    </div>
+    <div class="col-10">
+        {% for announcement in model.concentrator.announcements %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/images/avatar-placeholder.jpg" class="img-fluid card-img-top rounded-start"
+                             alt="Аватар пользователя">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ model.specialists[announcement.specialist].fcs }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ announcement.title }}</h6>
+                            <p class="card-text">{{ announcement.trimDescription() }}</p>
+                            <p class="card-text"><small class="text-body-secondary">Последнее
+                                обновление: {{ announcement.date | date("dd.MM.yyyy HH:mm") }}</small></p>
+                            <a href="/announcements/{{ announcement.id }}" class="btn btn-primary">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if model.concentrator.announcements.size() == 0 %}
+            <h2>Ничего не найдено</h2>
+            <p class="fs-5">Попробуйте изменить запрос и повторить попытку или <a href="/" class="link link-primary">вернуться
+                на главную</a></p>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col"></div>
+    <div class="col-1 text-right">
+            {% if model.concentrator.paginator.hasPreviousPage() %}
+            <a href="{{ model.concentrator.paginator.getPrevious() }}">Предыдущая</a>
+            {% endif %}
+    </div>
+
+    <div class="col-1 text-center">
+            {{ model.concentrator.paginator.currentPage() }}
+    </div>
+
+    <div class="col-1 text-left">
+            {% if model.concentrator.paginator.hasNextPage() %}
+            <a href="{{ model.concentrator.paginator.getNext() }}">Следующая</a>
+            {% endif %}
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+[ {
+  "id" : 1,
+  "ru" : "IT, интернет, телеком",
+  "needLicense" : true
+}, {
+  "id" : 2,
+  "ru" : "Автомобильный бизнес",
+  "needLicense" : true
+}, {
+  "id" : 3,
+  "ru" : "Административная работа",
+  "needLicense" : true
+}, {
+  "id" : 4,
+  "ru" : "Банки, инвестиции",
+  "needLicense" : true
+}, {
+  "id" : 5,
+  "ru" : "Без опыта, студенты",
+  "needLicense" : false
+}, {
+  "id" : 6,
+  "ru" : "Бухгалтерия, финансы",
+  "needLicense" : true
+}, {
+  "id" : 7,
+  "ru" : "Высший менеджмент",
+  "needLicense" : true
+}, {
+  "id" : 8,
+  "ru" : "Госслужба, НКО",
+  "needLicense" : true
+}, {
+  "id" : 9,
+  "ru" : "Домашний персонал",
+  "needLicense" : false
+}, {
+  "id" : 10,
+  "ru" : "ЖКХ, эксплуатация",
+  "needLicense" : true
+}, {
+  "id" : 11,
+  "ru" : "Искусство, развлечения",
+  "needLicense" : false
+}, {
+  "id" : 12,
+  "ru" : "Фитнес, салоны красоты",
+  "needLicense" : true
+}, {
+  "id" : 13,
+  "ru" : "Юриспруденция",
+  "needLicense" : true
+} ]

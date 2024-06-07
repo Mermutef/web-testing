@@ -1,0 +1,31 @@
+[ {
+  "id" : 0,
+  "fcs" : "Администратор",
+  "degree" : [ 1 ],
+  "phone" : "79080276943",
+  "vkId" : "mermutef",
+  "login" : "admin",
+  "password" : "'��ƫ��Խ����(\u0001�\u0010j\b\u0015D��l�4�.��6�",
+  "registerDate" : "2024-05-29 00:29",
+  "permissions" : 3
+}, {
+  "id" : 1,
+  "fcs" : "Специалист",
+  "degree" : [ 4, 50, 51, 52, 53, 54, 55, 56 ],
+  "phone" : "71284856312",
+  "vkId" : "id941091",
+  "login" : "specialist",
+  "password" : "f\u0004b'�؀���(�U�Z=�+վB^\u0011�{.\u0000\u001D��)",
+  "registerDate" : "2024-06-02 22:24",
+  "permissions" : 1
+}, {
+  "id" : 2,
+  "fcs" : "Модератор",
+  "degree" : [ 1, 42 ],
+  "phone" : "79159934550",
+  "vkId" : "mermutef",
+  "login" : "moderator",
+  "password" : "\u00104����c�\u0007\u001A�̋\r\u000ET8�܉��ᴡ\f����E",
+  "registerDate" : "2024-06-02 19:32",
+  "permissions" : 2
+} ]

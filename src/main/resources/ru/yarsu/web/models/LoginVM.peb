@@ -1,0 +1,32 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.LoginVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}Вход{% endblock %}
+    {% block pageHeading %}Вход{% endblock %}
+{% block pageInner %}
+<form method="post">
+    <div class="mb-3">
+        {% for error in model.form.errors %}
+            <p class="text-danger">
+                    {{ error.meta.description }}
+            </p>
+        {% endfor %}
+        <p class="text-danger">
+                {{ model.form.fields["invalidLoginOrPassword"] | first }}
+        </p>
+    </div>
+    <div class="mb-3">
+        <label for="login" class="form-label">Имя пользователя</label>
+        <input type="text" class="form-control" id="login" name="login"
+               value="{{ model.form.fields["login"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="password"
+               value="{{ model.form.fields["password"] | first }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Войти</button>
+</form>
+<a class="btn btn-outline-primary btn-sm px-4 mt-3"
+   href="/">Отменить</a>
+{% endblock %}

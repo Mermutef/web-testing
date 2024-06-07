@@ -1,0 +1,101 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.NewSpecialistVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}
+        {% if model.editMode %}
+        Редактирование профиля специалиста {{ model.form.fields["specialistFCS"] | first }}
+        {% else %}
+        Регистрация нового специалиста
+        {% endif %}
+    {% endblock %}
+    {% block pageHeading %}
+        {% if model.editMode %}
+        Редактирование профиля специалиста {{ model.form.fields["specialistFCS"] | first }}
+        {% else %}
+        Регистрация нового специалиста
+        {% endif %}
+    {% endblock %}
+{% block pageInner %}
+<form method="post">
+    <div class="mb-3">
+        {% for error in model.form.errors %}
+            <p class="text-danger">
+                    {{ error.meta.description }}
+            </p>
+        {% endfor %}
+        <p class="text-danger">
+                {{ model.form.fields["passwordsNotEquals"] | first }}
+        </p>
+        <p class="text-danger">
+                {{ model.form.fields["loginIsNotUnique"] | first }}
+        </p>
+    </div>
+    <div class="mb-3">
+        <label for="fcs" class="form-label">ФИО</label>
+        <input type="text" class="form-control" id="fcs" name="fcs" value="{{ model.form.fields["fcs"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="mainDegree" class="form-label">Основное образование</label>
+        <select name="mainDegree" id="mainDegree" class="form-control">
+                {% for degree in model.degrees %}
+                <option value="{{ degree.id }}" {% if model.form.fields["mainDegree"] | first == degree.id.toString() %}
+                        selected {% endif %}>{{ degree.ru }}</option>
+                {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="courseDegree" class="form-label">Дополнительное образование (курсы)</label>
+        <div id="courseDegreeHelp2" class="form-text">Поля дополнительного образования не обязательны для заполнения
+        </div>
+        <div id="courseDegree">
+            {% for degree in model.form.fields["courseDegree"] %}
+                <input type="text" class="form-control mb-3" name="courseDegree" value="{{ degree }}">
+            {% endfor %}
+            {% if model.form is null %}
+                <input type="text" class="form-control mb-3" name="courseDegree">
+                <input type="text" class="form-control mb-3" name="courseDegree">
+                <input type="text" class="form-control mb-3" name="courseDegree">
+                <input type="text" class="form-control mb-3" name="courseDegree">
+                <input type="text" class="form-control mb-3" name="courseDegree">
+            {% endif %}
+        </div>
+        <div id="courseDegreeHelp1" class="form-text">Чтобы удалить курс просто оставьте поле пустым</div>
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Телефон</label>
+        <input type="tel" class="form-control" id="phone" name="phone" value="{{ model.form.fields["phone"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="vkid" class="form-label">Индентификатор VK</label>
+        <input type="text" class="form-control" id="vkid" name="vkid" value="{{ model.form.fields["vkid"] | first }}">
+    </div>
+    {% if permissions.manageUsers %}
+        <div class="mb-3">
+            <label for="role" class="form-label">Роль</label>
+            <select name="role" id="role" class="form-control">
+                <option value="1" {% if model.form.fields["role"] | first == "1" %}selected {% endif %}>Специалист</option>
+                <option value="2" {% if model.form.fields["role"] | first == "2" %}selected {% endif %}>Модератор</option>
+                <option value="3" {% if model.form.fields["role"] | first == "3" %}selected {% endif %}>Администратор</option>
+            </select>
+        </div>
+    {% endif %}
+    <div class="mb-3">
+        <label for="login" class="form-label">Имя пользователя</label>
+        <input type="text" class="form-control" id="login" name="login"
+               value="{{ model.form.fields["login"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="password"
+               value="{{ model.form.fields["password"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="passwordDuplicate" class="form-label">Повторите пароль</label>
+        <input type="password" class="form-control" id="passwordDuplicate" name="passwordDuplicate"
+               value="{{ model.form.fields["passwordDuplicate"] | first }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+<a class="btn btn-outline-primary btn-sm px-4 mt-3"
+   href="/">Отменить</a>
+{% endblock %}

@@ -1,0 +1,57 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.SpecialistVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}
+    {{ model.specialist.fcs }}
+    {% endblock %}
+    {% block editSpecialist %}
+        {% if model.canEdit %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/users/{{ model.specialist.id }}/edit"
+               target="_self">Редактировать</a>
+        </li>
+        {% elseif permissions.manageUsers %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/users/{{ model.specialist.id }}/edit-role"
+               target="_self">Изменить роль</a>
+        </li>
+        {% endif %}
+    {% endblock %}
+    {% block deleteSpecialist %}
+    <li class="nav-item">
+        <a class="nav-link"
+           href="/users/{{ model.specialist.id }}/delete"
+           target="_self">Удалить</a>
+    </li>
+    {% endblock %}
+    {% block pageHeading %}
+    {{ model.specialist.fcs }}
+    {% endblock %}
+{% block pageInner %}
+<div class="row">
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item"><b>ФИО: </b>{{ model.specialist.fcs }}</li>
+            <li class="list-group-item"><b>Телефон: </b>{{ model.specialist.phone }}</li>
+            <li class="list-group-item"><b>ВКонтакте: </b>{{ model.specialist.vkId }}</li>
+            <li class="list-group-item">
+                <b>Образование и курсы: </b>
+                <ul>
+                        {% for degree in model.degrees %}
+                        <li>{{ degree.ru }}</li>
+                        {% endfor %}
+                </ul>
+            </li>
+            <li class="list-group-item"><b>Имя пользователя: </b>{{ model.specialist.login }}</li>
+            {% if model.canEdit %}
+                <li class="list-group-item"><b>Пароль: </b>Можно только изменить</li>
+            {% endif %}
+            {% if permissions.manageUsers %}
+                <li class="list-group-item"><b>Роль: </b>{{ roleName }}</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

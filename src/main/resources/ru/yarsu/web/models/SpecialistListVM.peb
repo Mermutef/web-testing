@@ -1,0 +1,80 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.SpecialistListVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}
+    Пользователи системы
+    {% endblock %}
+    {% block newSpecialistWithRole %}
+    <li class="nav-item">
+        <a class="nav-link"
+           href="/users/new"
+           target="_self">Добавить пользователя</a>
+    </li>
+    {% endblock %}
+    {% block pageHeading %}
+    Пользователи системы
+    {% endblock %}
+{% block pageInner %}
+<div class="row">
+    <div class="col-2">
+        <form method="get">
+            <h6>Дата регистрации</h6>
+            <div class="mb-3">
+                <label for="minFilterDate" class="form-label">От:</label>
+                <input type="datetime-local" class="form-control" name="minFilterDate" id="minFilterDate"
+                       value="{{ model.minRegisterDate }}">
+            </div>
+            <div class="mb-3">
+                <label for="maxFilterDate" class="form-label">До:</label>
+                <input type="datetime-local" class="form-control" name="maxFilterDate" id="maxFilterDate"
+                       value="{{ model.maxRegisterDate }}">
+            </div>
+            <p {% if model.dateIsCorrect %}hidden{% endif %}>Введена не дата либо некорректный промежуток</p>
+            <button type="submit" class="btn btn-primary">Применить</button>
+        </form>
+    </div>
+    <div class="col-10">
+        {% for specialist in model.concentrator.specialists %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/images/avatar-placeholder.jpg" class="img-fluid card-img-top rounded-start" alt="Аватар пользователя">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ specialist.fcs }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ specialist.login }}</h6>
+                            <p class="card-text">Зарегистрирован: {{ specialist.registerDate | date("dd.MM.yyyy HH:mm") }}</p>
+                            <a href="/users/{{ specialist.id }}" class="btn btn-primary">Перейти</a>
+                            <a href="/users/{{ specialist.id }}/delete" class="btn btn-primary">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% if model.concentrator.specialists.size() == 0 %}
+            <h2>Ничего не найдено</h2>
+            <p class="fs-5">Попробуйте изменить запрос и повторить попытку или <a href="/users" class="link link-primary">сбросить фильтр</a></p>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col"></div>
+    <div class="col-1 text-right">
+            {% if model.concentrator.paginator.hasPreviousPage() %}
+            <a href="{{ model.concentrator.paginator.getPrevious() }}">Предыдущая</a>
+            {% endif %}
+    </div>
+
+    <div class="col-1 text-center">
+            {{ model.concentrator.paginator.currentPage() }}
+    </div>
+
+    <div class="col-1 text-left">
+            {% if model.concentrator.paginator.hasNextPage() %}
+            <a href="{{ model.concentrator.paginator.getNext() }}">Следующая</a>
+            {% endif %}
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.NewAnnouncementVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}
+        {% if model.editMode %}
+        Редактирование объявления {{ model.form.fields["announcementId"] | first }}
+        {% else %}
+        Новое объявление
+        {% endif %}
+    {% endblock %}
+
+    {% block pageHeading %}
+        {% if model.editMode %}
+        Редактирование объявления {{ model.form.fields["announcementId"] | first }}
+        {% else %}
+        Новое объявление
+        {% endif %}
+    {% endblock %}
+
+{% block pageInner %}
+<form method="post">
+    <div class="mb-3">
+        {% for error in model.form.errors %}
+            <p class="text-danger">
+                    {{ error.meta.description }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Категория</label>
+        <select name="category" id="category" class="form-control">
+                {% for category in allCategories %}
+                <option value="{{ category.id }}" {% if model.form.fields["category"] | first == category.id.toString() %}
+                        selected {% endif %}>{{ category.ru }}</option>
+                {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title"
+               value="{{ model.form.fields["title"] | first }}">
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Описание</label>
+        <textarea class="form-control" id="description" name="description"
+                  rows="5">{{ model.form.fields["description"] | first }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+<a class="btn btn-outline-primary btn-sm px-4 mt-3"
+   href="/">Отменить</a>
+{% endblock %}

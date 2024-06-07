@@ -1,0 +1,30 @@
+﻿{# @pebvariable name="model" type="ru.yarsu.web.models.DeleteAnnouncementVM" #}
+
+{% extends "./partials/Layout.peb" %}
+    {% block title %}Удаление объявления #{{ model.announcementId }}{% endblock %}
+    {% block menuColor %}danger{% endblock %}
+    {% block pageHeading %}Удаление объявления #{{ model.announcementId }}{% endblock %}
+{% block pageInner %}
+<form method="post">
+    <div class="mb-3">
+            {% for error in model.form.errors %}
+            <p class="text-danger">
+                    {{ error.meta.description }}
+            </p>
+            {% endfor %}
+    </div>
+    <div class="mb-3">
+        <label for="idCheck" class="form-label">Введите номер удаляемого объявления</label>
+        <input type="text" class="form-control" id="idCheck" name="idCheck" value="{{ model.form.fields["idCheck"] | first }}">
+    </div>
+    <div class="mb-3">
+        <input type="checkbox" class="form-checkbox" id="deleteAgree" name="deleteAgree"
+        {% if model.form.fields["deleteAgree"] | first == "on" %}checked{% endif %}>
+        <label for="deleteAgree" class="form-label">Я подтверждаю удаление объявления #{{ model.announcementId }}</label>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Удалить</button>
+</form>
+<a class="btn btn-outline-primary btn-sm px-4 mt-3"
+   href="/">Отменить</a>
+{% endblock %}

@@ -1,0 +1,58 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.AnnouncementVM" #}
+
+{% extends "./partials/Layout.peb" %}
+    {% block title %}
+    {{ model.specialist.fcs }}
+    {% endblock %}
+    {% block editAnnouncement %}
+    {% if model.canEdit %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/announcements/{{ model.announcement.id }}/edit"
+               target="_self">Редактировать</a>
+        </li>
+    {% endif %}
+    {% endblock %}
+    {% block deleteAnnouncement %}
+        {% if permissions.deleteAnnouncements %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/announcements/{{ model.announcement.id }}/delete"
+               target="_self">Удалить</a>
+        </li>
+    {% endif %}
+    {% endblock %}
+    {% block pageHeading %}
+    {{ model.announcement.title }}
+    {% endblock %}
+{% block pageInner %}
+<div class="row">
+    <div class="col-md-8">
+        <h3 class="mt-2">Описание</h3>
+        {% for descriptionLine in model.announcement.htmlDescription() %}
+            <p>{{ descriptionLine }}</p>
+        {% endfor %}
+        <a
+                class="btn btn-outline-primary btn-sm px-4"
+                href="/categories/{{ model.category.id }}?{{ model.uriBack }}">Назад</a>
+    </div>
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item"><b>Категория:</b><br>{{ model.category.ru }}</li>
+            <li class="list-group-item"><b>ФИО: </b><br>{{ model.specialist.fcs }}</li>
+            <li class="list-group-item"><b>Телефон: </b><br><a
+                    href="tel:+{{ model.specialist.phone }}">Позвонить</a></li>
+            <li class="list-group-item"><b>ВКонтакте: </b><br><a
+                    href="https://vk.com/{{ model.specialist.vkId }}">Перейти</a></li>
+            <li class="list-group-item">
+                <b>Образование и курсы: </b>
+                <ul>
+                        {% for degree in model.degrees %}
+                        <li>{{ degree.ru }}</li>
+                        {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
