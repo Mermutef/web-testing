@@ -1,1 +1,8 @@
-rootProject.name = "final-prom-web-lab"
+rootProject.name = "web-testing"
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}

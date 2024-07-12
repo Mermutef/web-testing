@@ -4,11 +4,11 @@ import ru.yarsu.domain.storages.StoragesOperationsAndMethods
 
 class AuthorizationMethods(private val storagesOperations: StoragesOperationsAndMethods) {
     fun authAddOrEditAnnouncement(
-        user: Specialist?,
+        user: AuthUser?,
         announcementId: Int?,
     ): Boolean {
         if (user == null) return false
-        if (!Permissions.rolePermissionsById(user.permissions).addAnnouncements) return false
+        if (!user.permissions.addAnnouncements) return false
         if (announcementId == null) {
             return true
         }
@@ -17,10 +17,10 @@ class AuthorizationMethods(private val storagesOperations: StoragesOperationsAnd
     }
 
     fun authSeeUserInfo(
-        specialist: Specialist?,
+        user: AuthUser?,
         neededUser: Int,
     ): Boolean {
-        if (specialist == null) return false
-        return specialist.id == neededUser || Permissions.rolePermissionsById(specialist.permissions).manageUsers
+        if (user == null) return false
+        return user.id == neededUser || user.permissions.manageUsers
     }
 }

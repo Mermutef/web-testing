@@ -7,8 +7,8 @@ import org.http4k.core.Status
 import org.http4k.core.with
 import org.http4k.lens.RequestContextLens
 import ru.yarsu.domain.entities.Announcement
+import ru.yarsu.domain.entities.AuthUser
 import ru.yarsu.domain.entities.AuthorizationMethods
-import ru.yarsu.domain.entities.Specialist
 import ru.yarsu.domain.operations.announcement.UpdateAnnouncementOperation
 import ru.yarsu.web.lenses.AnnouncementLenses
 import ru.yarsu.web.lenses.CategoryLenses
@@ -23,23 +23,22 @@ class SaveAnnouncementHandler(
     private val updateAnnouncement: UpdateAnnouncementOperation,
     private val announcementLenses: AnnouncementLenses,
     private val categoryLenses: CategoryLenses,
-    private val getAuthUser: RequestContextLens<Specialist?>,
+    private val getAuthUser: RequestContextLens<AuthUser?>,
 ) : HttpHandler {
     override fun invoke(request: Request): Response {
-        val specialist = getAuthUser(request)
+        val user = getAuthUser(request)
         val form = announcementLenses.allAnnouncementFormLenses(request)
         val announcementId = UniversalLenses.lensOrNull(UniversalLenses.idLens, request)
-        if (specialist == null ||
-            !authMethods.authAddOrEditAnnouncement(specialist, announcementId)
+        if (user == null ||
+            !authMethods.authAddOrEditAnnouncement(user, announcementId)
         ) {
-            return Response(Status.NOT_FOUND)
+            return Response(Status.FORBIDDEN)
         }
         if (form.errors.isNotEmpty()) {
             return Response(Status.OK).with(
                 htmlView(request) of
                     NewAnnouncementVM(
                         form,
-                        true,
                     ),
             )
         }
@@ -58,7 +57,7 @@ class SaveAnnouncementHandler(
                         categoryId,
                         title,
                         description,
-                        specialist.id,
+                        user.id,
                     ),
                 )
             }",

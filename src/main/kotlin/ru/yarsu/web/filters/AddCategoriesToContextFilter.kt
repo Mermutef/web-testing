@@ -7,7 +7,7 @@ import org.http4k.lens.RequestContextLens
 import ru.yarsu.domain.entities.Category
 import ru.yarsu.domain.storages.StoragesOperationsAndMethods
 
-class CategoriesFilter(
+class AddCategoriesToContextFilter(
     private val addCategoriesToContextLens: RequestContextLens<List<Category>>,
     private val storagesOperations: StoragesOperationsAndMethods,
 ) : Filter {
@@ -21,10 +21,3 @@ class CategoriesFilter(
             )
         }
 }
-
-/**
- * 0. Контекст
- * 1. Линза
- * 2. Фильтр: по линзе добавляет в контекст
- * 3. В модели достаешь по ключу
- */

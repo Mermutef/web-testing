@@ -5,5 +5,4 @@ import org.http4k.template.ViewModel
 
 class NewCategoryVM(
     val form: WebForm?,
-    val editMode: Boolean,
 ) : ViewModel

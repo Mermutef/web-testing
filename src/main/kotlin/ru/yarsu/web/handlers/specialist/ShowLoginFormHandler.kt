@@ -1,4 +1,4 @@
-package ru.yarsu.web.handlers.auth
+package ru.yarsu.web.handlers.specialist
 
 import org.http4k.core.HttpHandler
 import org.http4k.core.Request

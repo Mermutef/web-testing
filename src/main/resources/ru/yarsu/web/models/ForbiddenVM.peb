@@ -1,0 +1,14 @@
+{# @pebvariable name="model" type="ru.yarsu.web.models.ForbiddenVM" #}
+
+    {% extends "./partials/Layout.peb" %}
+    {% block title %}Запрещено{% endblock %}
+    {% block menuColor %}danger{% endblock %}
+    {% block pageHeading %}{% endblock %}
+{% block pageInner %}
+<div class="text-center mt-4">
+    <h1>Вам сюда нельзя</h1>
+    <p class="fs-4 mt-3">На страницу по адресу {{ model.description }} Вам нельзя.</p>
+</div>
+<img src="/images/forbidden.jpg" class="rounded mx-auto d-block full-size">
+<div class="text-center"><a class="fs-5 btn btn-danger" href="/">Вернуться на главную страницу</a></div>
+{% endblock %}

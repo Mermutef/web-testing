@@ -9,7 +9,7 @@ import ru.yarsu.domain.entities.Permissions
 import ru.yarsu.domain.operations.specialist.GetSpecialistOperation
 import ru.yarsu.web.lenses.UniversalLenses
 
-class RoleNameFilter(
+class AddRoleNameToContextFilter(
     private val getSpecialist: GetSpecialistOperation,
     private val addRoleNameToContextLens: RequestContextLens<String?>,
 ) : Filter {

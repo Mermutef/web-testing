@@ -12,7 +12,7 @@
             </p>
         {% endfor %}
         <p class="text-danger">
-                {{ model.form.fields["invalidLoginOrPassword"] | first }}
+                {{ model.invalidLoginOrPassword }}
         </p>
     </div>
     <div class="mb-3">
@@ -22,7 +22,7 @@
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Пароль</label>
-        <input type="password" class="form-control" id="password" name="password"
+        <input type="text" class="form-control" id="password" name="password"
                value="{{ model.form.fields["password"] | first }}">
     </div>
     <button type="submit" class="btn btn-primary">Войти</button>

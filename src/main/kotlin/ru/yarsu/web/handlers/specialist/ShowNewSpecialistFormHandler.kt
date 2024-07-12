@@ -19,7 +19,6 @@ class ShowNewSpecialistFormHandler(
                 NewSpecialistVM(
                     getMainDegreesOperation.getMainDegrees(),
                     null,
-                    false,
                 ),
         )
 }

@@ -1,8 +1,5 @@
 ﻿package ru.yarsu.domain.storages
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import ru.yarsu.domain.entities.Announcement
 import ru.yarsu.domain.entities.Category
 import ru.yarsu.domain.entities.Degree
@@ -30,62 +27,14 @@ import ru.yarsu.domain.operations.specialist.EditSpecialistOperationImpl
 import ru.yarsu.domain.operations.specialist.GetSpecialistOperationImpl
 import ru.yarsu.domain.operations.specialist.SpecialistDateTimeFilterOperationImpl
 import ru.yarsu.domain.operations.specialist.UpdateSpecialistOperationImpl
-import java.io.File
-import java.io.FileNotFoundException
-import kotlin.concurrent.thread
 
 class StoragesOperationsAndMethods(
-    private val path: String,
-    salt: String,
+    announcementStorage: AnnouncementStorage,
+    specialistStorage: SpecialistStorage,
+    categoryStorage: CategoryStorage,
+    degreeStorage: DegreeStorage,
+    val salt: String,
 ) {
-    private val mapper = jacksonObjectMapper()
-    private val announcementStorage: AnnouncementStorage
-    private val specialistStorage: SpecialistStorage
-    private val categoryStorage: CategoryStorage
-    private val degreeStorage: DegreeStorage
-
-    init {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT)
-        try {
-            announcementStorage =
-                AnnouncementStorage(
-                    mapper.readValue<List<Announcement>>(
-                        File("$path/announcements.json"),
-                    ),
-                )
-            specialistStorage =
-                SpecialistStorage(
-                    mapper.readValue<List<Specialist>>(
-                        File("$path/specialists.json"),
-                    ),
-                )
-            categoryStorage =
-                CategoryStorage(
-                    mapper.readValue<List<Category>>(
-                        File("$path/categories.json"),
-                    ),
-                )
-            degreeStorage =
-                DegreeStorage(
-                    mapper.readValue<List<Degree>>(
-                        File("$path/degrees.json"),
-                    ),
-                )
-        } catch (ex: Exception) {
-            when (ex) {
-                is FileNotFoundException,
-                is IllegalArgumentException,
-                is com.fasterxml.jackson.databind.exc.ValueInstantiationException,
-                is com.fasterxml.jackson.core.JsonParseException,
-                -> {
-                    throw IllegalArgumentException(ex.message)
-                }
-
-                else -> throw ex
-            }
-        }
-    }
-
     // announcement storage operations
     val getAnnouncement = GetAnnouncementOperationImpl(announcementStorage)
     val deleteAnnouncement = DeleteAnnouncementOperationImpl(announcementStorage)
@@ -98,7 +47,7 @@ class StoragesOperationsAndMethods(
 
     // specialist storage operations
     val getSpecialist = GetSpecialistOperationImpl(specialistStorage)
-    val updateSpecialist = UpdateSpecialistOperationImpl(specialistStorage, salt)
+    val updateSpecialist = UpdateSpecialistOperationImpl(specialistStorage)
     val editSpecialist = EditSpecialistOperationImpl(specialistStorage)
     val deleteSpecialist = DeleteSpecialistOperationImpl(specialistStorage)
     val checkUniquenessOfPassword = CheckUniquenessOfPasswordOperationImpl(specialistStorage)
@@ -127,18 +76,25 @@ class StoragesOperationsAndMethods(
             .toMap()
     }
 
-    fun regSDHook() =
-        Runtime.getRuntime().addShutdownHook(
-            thread(start = false) {
-                mapper.writeValue(File("$path/announcements.json"), announcementStorage.getAll())
-                println("Объявления сохранены")
-                mapper.writeValue(File("$path/specialists.json"), specialistStorage.getAll())
-                println("Специалисты сохранены")
-                mapper.writeValue(File("$path/categories.json"), categoryStorage.getAll())
-                println("Категории сохранены")
-                mapper.writeValue(File("$path/degrees.json"), degreeStorage.getAll())
-                println("Образования сохранены")
-                println("Данные успешно сохранены.")
-            },
-        )
+    companion object {
+        fun initAnnouncementStorage(announcements: List<Announcement>): AnnouncementStorage {
+            val storage = AnnouncementStorage(announcements)
+            return storage
+        }
+
+        fun initSpecialistStorage(specialists: List<Specialist>): SpecialistStorage {
+            val storage = SpecialistStorage(specialists)
+            return storage
+        }
+
+        fun initCategoryStorage(categories: List<Category>): CategoryStorage {
+            val storage = CategoryStorage(categories)
+            return storage
+        }
+
+        fun initDegreeStorage(degrees: List<Degree>): DegreeStorage {
+            val storage = DegreeStorage(degrees)
+            return storage
+        }
+    }
 }

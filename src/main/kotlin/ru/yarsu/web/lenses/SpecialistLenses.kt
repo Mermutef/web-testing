@@ -26,19 +26,6 @@ class SpecialistLenses(degreeLenses: DegreeLenses) {
             passwordDuplicateField,
         ).toLens()
 
-    val signInFormLenses =
-        Body.webForm(
-            Validator.Feedback,
-            signInLoginField,
-            signInPasswordField,
-        ).toLens()
-
-    val editRoleLenses =
-        Body.webForm(
-            Validator.Feedback,
-            roleField,
-        ).toLens()
-
     companion object {
         val fcsField = FormField.nonEmptyString().nonBlankString().required("fcs", "Укажите ФИО")
 
@@ -140,5 +127,18 @@ class SpecialistLenses(degreeLenses: DegreeLenses) {
                 "password",
                 "Введите пароль",
             )
+
+        val signInFormLenses =
+            Body.webForm(
+                Validator.Feedback,
+                signInLoginField,
+                signInPasswordField,
+            ).toLens()
+
+        val editRoleLenses =
+            Body.webForm(
+                Validator.Feedback,
+                roleField,
+            ).toLens()
     }
 }

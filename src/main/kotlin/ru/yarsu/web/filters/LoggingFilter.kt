@@ -9,7 +9,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 class LoggingFilter(name: String) : Filter {
-    private val logger: Logger
+    val logger: Logger
 
     init {
         if (Files.notExists(Path.of("logs"))) {
@@ -39,14 +39,4 @@ class LoggingFilter(name: String) : Filter {
             ).log()
             response
         }
-
-    fun logInitError(
-        error: Exception,
-        path: String,
-        place: String,
-    ) {
-        logger.atError().setMessage(error.message).addKeyValue("DIRECTORY", path).addKeyValue("PLACE", place).log()
-        System.err.println("Исключение при считывании данных из директории /$path: ${error.message}")
-        System.err.println("Аварийное завершение...")
-    }
 }

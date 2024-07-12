@@ -18,7 +18,7 @@ data class Permissions(
         val MODERATOR = SPECIALIST.copy(id = MODERATOR_ID, manageCategories = true, deleteAnnouncements = true)
         val ADMIN = MODERATOR.copy(id = ADMINISTRATOR_ID, manageUsers = true)
 
-        fun rolePermissionsById(id: Int?): Permissions {
+        fun rolePermissionsById(id: Int): Permissions {
             return when (id) {
                 SPECIALIST_ID -> SPECIALIST
                 MODERATOR_ID -> MODERATOR
@@ -27,7 +27,7 @@ data class Permissions(
             }
         }
 
-        fun roleNameById(id: Int?): String {
+        fun roleNameById(id: Int): String {
             return when (id) {
                 SPECIALIST_ID -> "Специалист"
                 MODERATOR_ID -> "Модератор"

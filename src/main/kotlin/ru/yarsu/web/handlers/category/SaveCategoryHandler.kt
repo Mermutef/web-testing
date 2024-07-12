@@ -23,7 +23,6 @@ class SaveCategoryHandler(
                 htmlView(request) of
                     NewCategoryVM(
                         form,
-                        false,
                     ),
             )
         }

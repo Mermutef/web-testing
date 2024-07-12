@@ -5,7 +5,7 @@
     {{ model.specialist.fcs }}
     {% endblock %}
     {% block editAnnouncement %}
-    {% if model.canEdit %}
+    {% if canEdit %}
         <li class="nav-item">
             <a class="nav-link"
                href="/announcements/{{ model.announcement.id }}/edit"

@@ -7,8 +7,8 @@ import org.http4k.core.Status
 import org.http4k.core.with
 import org.http4k.lens.RequestContextLens
 import org.http4k.lens.WebForm
+import ru.yarsu.domain.entities.AuthUser
 import ru.yarsu.domain.entities.AuthorizationMethods
-import ru.yarsu.domain.entities.Specialist
 import ru.yarsu.domain.operations.announcement.GetAnnouncementOperation
 import ru.yarsu.web.lenses.AnnouncementLenses
 import ru.yarsu.web.lenses.CategoryLenses
@@ -19,7 +19,7 @@ import ru.yarsu.web.templates.ContextAwareViewRender
 class EditAnnouncementHandler(
     private val htmlView: ContextAwareViewRender,
     private val authMethods: AuthorizationMethods,
-    private val getAuthUser: RequestContextLens<Specialist?>,
+    private val getAuthUser: RequestContextLens<AuthUser?>,
     private val getAnnouncement: GetAnnouncementOperation,
     private val categoryLenses: CategoryLenses,
 ) : HttpHandler {
@@ -32,7 +32,7 @@ class EditAnnouncementHandler(
                 announcementId,
             )
         ) {
-            return Response(Status.NOT_FOUND)
+            return Response(Status.FORBIDDEN)
         }
         val announcement =
             getAnnouncement.get(announcementId)
@@ -50,7 +50,6 @@ class EditAnnouncementHandler(
             htmlView(request) of
                 NewAnnouncementVM(
                     webForm,
-                    true,
                 ),
         )
     }

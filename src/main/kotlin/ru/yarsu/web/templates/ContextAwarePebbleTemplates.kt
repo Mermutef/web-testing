@@ -26,12 +26,12 @@ class ContextAwarePebbleTemplates(
                 val wholeContext = context + mapOf("model" to viewModel)
                 engine.getTemplate(viewModel.template() + ".peb").evaluate(writer, wholeContext)
                 writer.toString()
-            } catch (_: LoaderException) {
+            } catch (e: LoaderException) {
                 throw ViewNotFound(viewModel)
             }
     }
 
-    fun CachingClasspath(baseClasspathPackage: String = ""): ContextAwareTemplateRenderer {
+    fun CachingClasspath(baseClasspathPackage: String): ContextAwareTemplateRenderer {
         val loader = ClasspathLoader(classLoader)
         loader.prefix = if (baseClasspathPackage.isEmpty()) null else baseClasspathPackage.replace('.', '/')
         return ContextAwarePebbleTemplateRenderer(

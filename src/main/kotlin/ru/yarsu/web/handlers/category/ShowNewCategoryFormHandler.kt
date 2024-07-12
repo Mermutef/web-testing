@@ -16,7 +16,6 @@ class ShowNewCategoryFormHandler(
             htmlView(request) of
                 NewCategoryVM(
                     null,
-                    false,
                 ),
         )
 }

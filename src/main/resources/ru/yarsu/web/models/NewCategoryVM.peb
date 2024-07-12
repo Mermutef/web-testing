@@ -2,14 +2,14 @@
 
     {% extends "./partials/Layout.peb" %}
     {% block title %}
-        {% if model.editMode %}
+        {% if editMode %}
         Редактирование категории {{ model.form.fields["categoryId"] | first }}
         {% else %}
         Новая категория
         {% endif %}
     {% endblock %}
     {% block pageHeading %}
-        {% if model.editMode %}
+        {% if editMode %}
         Редактирование категории {{ model.form.fields["category"] | first }}
         {% else %}
         Новая категория

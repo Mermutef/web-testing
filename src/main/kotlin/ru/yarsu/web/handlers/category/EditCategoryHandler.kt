@@ -37,7 +37,6 @@ class EditCategoryHandler(
             htmlView(request) of
                 NewCategoryVM(
                     webForm,
-                    true,
                 ),
         )
     }

@@ -12,5 +12,4 @@ class AnnouncementVM(
     val category: Category,
     val degrees: List<Degree>,
     val uriBack: String,
-    val canEdit: Boolean,
 ) : ViewModel

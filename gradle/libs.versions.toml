@@ -1,0 +1,66 @@
+[versions]
+http4k = "5.45.2.0"
+jackson = "2.18.3"
+jwtJava = "4.5.0"
+kotest = "5.9.1"
+kotlin = "2.0.21"
+kover = "0.9.1"
+logback = "1.5.8"
+mockito = "5.4.0"
+slf4j = "2.0.17"
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+
+[bundles]
+http4k = [
+    "http4kClientOkHttp",
+    "http4kCloudnative",
+    "http4kMultipart",
+    "http4kServerNetty",
+    "http4kTemplatePebble",
+    "http4kCore",
+]
+
+http4kTesting = [
+    "http4kTestingApproval",
+    "http4kTestingHamkrest",
+    "http4kTestingKotest",
+]
+
+jackson = [
+    "jacksonCore",
+    "jacksonJSR310",
+    "jacksonKotlin",
+]
+
+kotest = [
+    "kotestRunner",
+    "kotestAssertions",
+]
+
+logging = [
+    "logback",
+]
+
+[libraries]
+http4kClientOkHttp = { module = "org.http4k:http4k-client-okhttp", version.ref = "http4k" }
+http4kCloudnative = { module = "org.http4k:http4k-cloudnative", version.ref = "http4k" }
+http4kCore = { module = "org.http4k:http4k-core", version.ref = "http4k" }
+http4kMultipart = { module = "org.http4k:http4k-multipart", version.ref = "http4k" }
+http4kServerNetty = { module = "org.http4k:http4k-server-netty", version.ref = "http4k" }
+http4kTemplatePebble = { module = "org.http4k:http4k-template-pebble", version.ref = "http4k" }
+http4kTestingApproval = { module = "org.http4k:http4k-testing-approval", version.ref = "http4k" }
+http4kTestingHamkrest = { module = "org.http4k:http4k-testing-hamkrest", version.ref = "http4k" }
+http4kTestingKotest = { module = "org.http4k:http4k-testing-kotest", version.ref = "http4k" }
+jacksonCore = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jacksonJSR310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jwtJava = { module = "com.auth0:java-jwt", version.ref = "jwtJava" }
+kotestAssertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotestRunner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+mockito = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }

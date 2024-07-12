@@ -2,7 +2,7 @@
 
     {% extends "./partials/Layout.peb" %}
     {% block title %}
-        {% if model.editMode %}
+        {% if editMode %}
         Редактирование объявления {{ model.form.fields["announcementId"] | first }}
         {% else %}
         Новое объявление
@@ -10,7 +10,7 @@
     {% endblock %}
 
     {% block pageHeading %}
-        {% if model.editMode %}
+        {% if editMode %}
         Редактирование объявления {{ model.form.fields["announcementId"] | first }}
         {% else %}
         Новое объявление

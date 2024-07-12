@@ -7,8 +7,6 @@ import org.http4k.core.Status
 import org.http4k.core.Uri
 import org.http4k.core.findSingle
 import org.http4k.core.with
-import org.http4k.lens.RequestContextLens
-import ru.yarsu.domain.entities.Specialist
 import ru.yarsu.domain.operations.announcement.GetAnnouncementOperation
 import ru.yarsu.domain.operations.category.GetCategoryOperation
 import ru.yarsu.domain.operations.degree.EncodeDegreesOperation
@@ -23,27 +21,33 @@ class AnnouncementHandler(
     private val getSpecialist: GetSpecialistOperation,
     private val getCategory: GetCategoryOperation,
     private val getDegrees: EncodeDegreesOperation,
-    private val getAutUserLens: RequestContextLens<Specialist?>,
 ) : HttpHandler {
     override fun invoke(request: Request): Response {
+        val idLens = UniversalLenses.idLens
+
         val announcementId =
-            UniversalLenses.lensOrNull(UniversalLenses.idLens, request)
+            UniversalLenses.lensOrNull(idLens, request)
                 ?: return Response(Status.NOT_FOUND)
+
         val announcement =
             getAnnouncement.get(announcementId)
                 ?: return Response(Status.NOT_FOUND)
-        val specialist =
-            getAutUserLens(request)
-                ?: getSpecialist.get(announcement.specialist)
-                ?: return Response(Status.NOT_FOUND)
+
         val category =
             getCategory.get(announcement.category)
                 ?: return Response(Status.NOT_FOUND)
+
+        val specialist =
+            getSpecialist.get(announcement.specialist)
+                ?: return Response(Status.NOT_FOUND)
+
         val degrees = getDegrees.encodeDegrees(specialist)
+
         val uriBack =
             Uri
                 .of(request.headers.findSingle("Referer") ?: "")
                 .query
+
         return Response(Status.OK).with(
             htmlView(request) of
                 AnnouncementVM(
@@ -52,7 +56,6 @@ class AnnouncementHandler(
                     category,
                     degrees,
                     uriBack,
-                    announcement.specialist == getAutUserLens(request)?.id,
                 ),
         )
     }

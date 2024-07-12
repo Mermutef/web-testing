@@ -2,14 +2,14 @@
 
     {% extends "./partials/Layout.peb" %}
     {% block title %}
-        {% if model.editMode %}
+        {% if editMode %}
         Редактирование профиля специалиста {{ model.form.fields["specialistFCS"] | first }}
         {% else %}
         Регистрация нового специалиста
         {% endif %}
     {% endblock %}
     {% block pageHeading %}
-        {% if model.editMode %}
+        {% if editMode %}
         Редактирование профиля специалиста {{ model.form.fields["specialistFCS"] | first }}
         {% else %}
         Регистрация нового специалиста
@@ -86,12 +86,12 @@
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Пароль</label>
-        <input type="password" class="form-control" id="password" name="password"
+        <input type="text" class="form-control" id="password" name="password"
                value="{{ model.form.fields["password"] | first }}">
     </div>
     <div class="mb-3">
         <label for="passwordDuplicate" class="form-label">Повторите пароль</label>
-        <input type="password" class="form-control" id="passwordDuplicate" name="passwordDuplicate"
+        <input type="text" class="form-control" id="passwordDuplicate" name="passwordDuplicate"
                value="{{ model.form.fields["passwordDuplicate"] | first }}">
     </div>
     <button type="submit" class="btn btn-primary">Сохранить</button>

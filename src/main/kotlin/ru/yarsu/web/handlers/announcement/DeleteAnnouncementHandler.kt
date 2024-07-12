@@ -32,7 +32,6 @@ class DeleteAnnouncementHandler(
             Body.webForm(
                 Validator.Feedback,
                 UniversalLenses.checkBoxField,
-                UniversalLenses.checkEnteredIdLens(announcementId),
             ).toLens()(request)
 
         if (form.errors.isNotEmpty()) {

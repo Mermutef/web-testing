@@ -16,10 +16,9 @@ class EditRoleHandler(
     private val htmlView: ContextAwareViewRender,
     private val getSpecialist: GetSpecialistOperation,
     private val editSpecialist: EditSpecialistOperation,
-    private val specialistLenses: SpecialistLenses,
 ) : HttpHandler {
     override fun invoke(request: Request): Response {
-        val form = specialistLenses.editRoleLenses(request)
+        val form = SpecialistLenses.editRoleLenses(request)
         if (form.errors.isNotEmpty()) {
             return Response(Status.OK)
                 .with(htmlView(request) of EditRoleVM(form))

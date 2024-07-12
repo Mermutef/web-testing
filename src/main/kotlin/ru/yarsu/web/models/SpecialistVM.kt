@@ -7,5 +7,4 @@ import ru.yarsu.domain.entities.Specialist
 class SpecialistVM(
     val specialist: Specialist,
     val degrees: List<Degree>,
-    val canEdit: Boolean,
 ) : ViewModel
